@@ -1,0 +1,15 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/packages/server",
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ],
+        }
+    ]
+}
