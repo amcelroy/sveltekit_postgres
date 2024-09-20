@@ -1,5 +1,7 @@
 <script lang="ts">
     import SignUpForm from "$lib/components/ui/SignUpForm.svelte";
+
+	export let data;
 </script>
 
 <div class="container h-screen flex items-center justify-center ">
@@ -10,7 +12,7 @@
 				Enter your email below to create your account
 			</p>
 		</div>
-		<SignUpForm/>
+		<SignUpForm data={data.form}/>
 		<p class="text-muted-foreground px-8 text-center text-sm">
 			By clicking "Create account", you agree to our
 			<a href="/terms" class="hover:text-primary underline underline-offset-4">

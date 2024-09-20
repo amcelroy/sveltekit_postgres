@@ -1,46 +1,51 @@
-<script lang="ts">
+<script lang="ts" >
 	import { cn } from "$lib/utils.js";
-    import { Button } from "./button";
     import { Input } from "./input";
-    import { Label } from "./label";
+	import * as Form from "./form/index"
+	import { superForm } from "sveltekit-superforms";
+	import type { SuperValidated, Infer } from "sveltekit-superforms";
+	import { schemaSignUp, type SchemaSignUp } from "$lib/validationSchemas";
+    import { zodClient } from "sveltekit-superforms/adapters";
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
 	let isLoading = false;
+
+	export let data: SuperValidated<Infer<SchemaSignUp>>;
+	const form = superForm(data, {validators: zodClient(schemaSignUp)});
+	const { form: formData, enhance } = form;
+
 </script>
 
-<div class={cn("grid gap-6", className)} {...$$restProps}>
-	<form method="POST">
-		<div class="grid gap-2">
+<div class={cn("grid gap-6 pt-4 pb-6", className)} {...$$restProps}>
+	<form method="POST" use:enhance>
+		<div class="grid gap-1">
 			<div class="grid gap-1">
-				<Label class="sr-only" for="email">Email</Label>
-				<Input
-					id="email"
-					name="email"
-					placeholder="name@example.com"
-					type="email"
-					autocapitalize="none"
-					autocomplete="email"
-					autocorrect="off"
-					disabled={isLoading}
-				/>
-                <Label class="sr-only" for="email">Email</Label>
-				<Input
-					id="password"
-					name="password"
-					type="password"
-					disabled={isLoading}
-				/>
+				<Form.Field {form} name="email">
+				<Form.Control let:attrs>
+					<Input {...attrs} bind:value={$formData.email} placeholder="user@email.com"/>
+				</Form.Control>
+				<Form.FieldErrors />
+				</Form.Field>
+
+				<Form.Field {form} name="password">
+					<Form.Control let:attrs>
+					<Input {...attrs} bind:value={$formData.password} placeholder="password" type="password"/>
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
+
+				<Form.Field {form} name="confirmation">
+					<Form.Control let:attrs>
+					<Input {...attrs} bind:value={$formData.confirmation} placeholder="confirm password" type="password"/>
+					</Form.Control>
+					<Form.FieldErrors />
+				</Form.Field>
 			</div>
-			<Button type="submit" disabled={isLoading}>
-				Create Account
-			</Button>
+		<Form.Button disabled={isLoading}>Submit</Form.Button>
 		</div>
-	</form>
-	<div class="relative">
-		<div class="absolute inset-0 flex items-center">
-			<span class="w-full border-t" />
-		</div>
-	</div>
+	  </form>
 </div>
+
+<!-- <SuperDebug data={$formData} /> -->
