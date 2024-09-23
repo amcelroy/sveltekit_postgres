@@ -1,6 +1,9 @@
 <script lang="ts">
-    import Authform from "$lib/components/ui/authform.svelte";
+    import Authform from "$lib/components/ui/Authform.svelte";
     import { Button } from "$lib/components/ui/button";
+
+	export let data;
+
 </script>
 
 <div class="md:hidden">
@@ -41,7 +44,7 @@
 					Enter your email below to sign in to your account
 				</p>
 			</div>
-			<Authform />
+			<Authform data={data.form}/>
 			<p class="text-muted-foreground px-8 text-center text-sm">
 				By clicking continue, you agree to our
 				<a href="/terms" class="hover:text-primary underline underline-offset-4">

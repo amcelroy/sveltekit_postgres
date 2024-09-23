@@ -1,5 +1,5 @@
 import { lucia } from "$lib/server/auth";
-import { fail, redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import { generateIdFromEntropySize } from "lucia";
 import { hash } from "@node-rs/argon2";
 import type { Actions } from "./$types";
@@ -7,31 +7,23 @@ import { db } from "../hooks.server";
 import { userTable } from "../../schema";
 import { eq } from "drizzle-orm";
 
+import { superValidate, setError, fail } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters"
+import { schemaSignUp } from "$lib/validationSchemas";
+
+export const load = (async () => {
+	const form = await superValidate(zod(schemaSignUp));
+	return { form }
+})
+
 export const actions: Actions = {
 	default: async (event) => {
-		const formData = await event.request.formData();
-		const email = formData.get("email");
-		const password = formData.get("password");
-		// username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
-		// keep in mind some database (e.g. mysql) are case insensitive
-		if (
-			typeof email !== "string" ||
-			email.length < 3 ||
-			email.length > 31 ||
-			!/^[/^\S+@\S+\.\S+$/]+$/.test(email.toLowerCase()) // eslint-disable-line
-		) {
-			return fail(400, {
-				message: "Invalid email"
-			});
+		const form = await superValidate(event.request, zod(schemaSignUp))
+		if (!form.valid) {
+			return fail(400, {form})
 		}
-		if (typeof password !== "string" || password.length < 6 || password.length > 255) {
-			return fail(400, {
-				message: "Invalid password"
-			});
-		}
-
 		const userId = generateIdFromEntropySize(10); // 16 characters long
-		const passwordHash = await hash(password, {
+		const passwordHash = await hash(form.data.password, {
 			// recommended minimum parameters
 			memoryCost: 19456,
 			timeCost: 2,
@@ -39,16 +31,14 @@ export const actions: Actions = {
 			parallelism: 1
 		});
 
-        const users = await db.select().from(userTable).where(eq(userTable.email, email));
+        const users = await db.select().from(userTable).where(eq(userTable.email, form.data.email));
 
 		if(users.length > 0) {
-			return fail(400, {
-				message: "Email already exists"
-			});
+			return setError(form, "email", "Email already exists.")
 		}else{
 			await db.insert(userTable).values({
 				id: userId,
-				email: email,
+				email: form.data.email,
 				password_hash: passwordHash
 			});
 		}
@@ -60,6 +50,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, "/");
+		redirect(302, "/dashboard");
 	}
 };

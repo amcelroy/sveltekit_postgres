@@ -1,41 +1,30 @@
 import { lucia } from "$lib/server/auth";
-import { fail, redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import { verify } from "@node-rs/argon2";
 import type { Actions } from "./$types";
 import { db } from "./hooks.server";
 import { userTable } from "../schema";
 import { eq } from "drizzle-orm";
 
+import { superValidate, setError, fail } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters"
+import { schemaSignIn } from "$lib/validationSchemas";
+
+export const load = (async () => {
+	const form = await superValidate(zod(schemaSignIn));
+	return { form }
+})
+
 export const actions: Actions = {
 	default: async (event) => {
-		const formData = await event.request.formData();
-		const email = formData.get("email");
-		const password = formData.get("password");
-
-		if (
-			typeof email !== "string" ||
-			email.length < 3 ||
-			email.length > 31 ||
-			!/^[/^\S+@\S+\.\S+$/]+$/.test(email.toLowerCase()) // eslint-disable-line
-		) {
-			return fail(400, {
-				message: "Invalid email"
-			});
-		}
-		if (typeof password !== "string" || password.length < 6 || password.length > 255) {
-			return fail(400, {
-				message: "Invalid password"
-			});
+		const form = await superValidate(event.request, zod(schemaSignIn))
+		if (!form.valid) {
+			return fail(400, {form})
 		}
 
-		// const existingUser = await db
-		// 	.table("username")
-		// 	.where("username", "=", username.toLowerCase())
-		// 	.get();
+		const existingUser = await db.select().from(userTable).where(eq(userTable.email, form.data.email));
 
-		const existingUser = await db.select().from(userTable).where(eq(userTable.email, email));
-
-		if (!existingUser) {
+		if (existingUser.length < 1) {
 			// NOTE:
 			// Returning immediately allows malicious actors to figure out valid usernames from response times,
 			// allowing them to only focus on guessing passwords in brute-force attacks.
@@ -45,23 +34,19 @@ export const actions: Actions = {
 			// Since protecting against this is non-trivial,
 			// it is crucial your implementation is protected against brute-force attacks with login throttling etc.
 			// If usernames are public, you may outright tell the user that the username is invalid.
-			return fail(400, {
-				message: "Incorrect username or password"
-			});
+			return setError(form, "password", "Incorrect username or password")
 		}
 
         const user = existingUser[0];
 
-		const validPassword = await verify(user.password_hash!, password, {
+		const validPassword = await verify(user.password_hash!, form.data.password, {
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
 			parallelism: 1
 		});
 		if (!validPassword) {
-			return fail(400, {
-				message: "Incorrect username or password"
-			});
+			return setError(form, "password", "Incorrect username or password")
 		}
 
 		const session = await lucia.createSession(user.id, {});
