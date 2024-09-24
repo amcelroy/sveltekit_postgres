@@ -11,7 +11,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit migrate",
-		"test": "vitest"
+		"test": "vitest",
+		"cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.10.0",
