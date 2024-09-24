@@ -1,8 +1,29 @@
 <script lang="ts">
     import Authform from "$lib/components/ui/Authform.svelte";
     import { Button } from "$lib/components/ui/button";
+    import { onMount } from "svelte";
+	import { browser } from "$app/environment";
+	import * as Drawer from "$lib/components/ui/drawer";
+	import Cookies from "js-cookie";
 
 	export let data;
+
+	$: navigator = {}
+
+	let iOS = false;
+	let macOS = false;
+	let webAppInstalled = false;
+
+	onMount(() => {
+		if (browser) {
+			if (window){
+				navigator = window.navigator.userAgent;
+				let nav_string = JSON.stringify(navigator);
+				iOS = nav_string.includes("iPhone");
+				macOS = nav_string.includes("Macintosh");
+			}
+		}
+	})
 
 </script>
 
@@ -59,6 +80,20 @@
 		</div>
 	</div>
 </div>
+
+{#if iOS}
+	<Drawer.Root bind:open={iOS}>
+		<Drawer.Content>
+		<Drawer.Header>
+			<Button>Install Webapp</Button>
+			<Button>No Thanks</Button>
+		</Drawer.Header>
+		<Drawer.Footer>
+			
+		</Drawer.Footer>
+		</Drawer.Content>
+  	</Drawer.Root>		
+{/if}
 
 <style>
 	.pennybacker {
