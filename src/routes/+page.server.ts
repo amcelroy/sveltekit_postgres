@@ -1,8 +1,8 @@
 import { db, lucia } from "$lib/server/auth";
-import { redirect, type Handle, type HandleFetch } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import { verify } from "@node-rs/argon2";
 import type { Actions } from "./$types";
-import { sessionTable, userTable } from "../schema";
+import { userTable } from "../schema";
 import { eq } from "drizzle-orm";
 import { superValidate, setError, fail } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters"
@@ -46,9 +46,6 @@ export const actions: Actions = {
 		if (!validPassword) {
 			return setError(form, "password", "Incorrect username or password")
 		}
-
-		// Check if the user has a session already in the table
-		const existingSession = await db.select().from(sessionTable).where(eq(sessionTable.userId, user.id));
 
 		const session = await lucia.createSession(user.id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);

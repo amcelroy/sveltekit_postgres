@@ -1,5 +1,4 @@
 import winston from "winston";
-import * as dotenv from 'dotenv'
 import DailyRotateFile from "winston-daily-rotate-file"; // eslint-disable-line
 const { combine, timestamp, printf, colorize, align } = winston.format;
 
