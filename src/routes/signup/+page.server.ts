@@ -3,7 +3,7 @@ import { redirect } from "@sveltejs/kit";
 import { generateIdFromEntropySize } from "lucia";
 import { hash } from "@node-rs/argon2";
 import type { Actions } from "./$types";
-import { db } from "../hooks.server";
+import { db } from "../../hooks.server";
 import { userTable } from "../../schema";
 import { eq } from "drizzle-orm";
 
