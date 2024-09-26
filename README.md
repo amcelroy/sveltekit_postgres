@@ -1,3 +1,5 @@
+![Test and Linting](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 # What this is
 
 A SvelteKit (Typescript) / Postgres template project that is hopefully easy to use with most of the bells and whistles to get a project up and running. 
