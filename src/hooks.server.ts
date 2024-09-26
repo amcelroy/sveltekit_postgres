@@ -2,7 +2,13 @@ import { lucia } from "$lib/server/auth";
 import { type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const sessionId = event.cookies.get(lucia.sessionCookieName);
+	const cookieSessionId = event.cookies.get(lucia.sessionCookieName);
+	const authorizationHeader = event.request.headers.get("Authorization");
+	const authSessionId = lucia.readBearerToken(authorizationHeader ?? "");
+
+	// Javascript || a string returns the first truthy value, prefer cookies over bearer tokens if both are present
+	const sessionId =  cookieSessionId || authSessionId;
+
 	if (!sessionId) {
 		event.locals.user = null;
 		event.locals.session = null;
