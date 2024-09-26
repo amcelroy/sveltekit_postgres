@@ -1,11 +1,11 @@
 run:
-	@docker compose -p bsm up -d
+	@docker compose -p project_x up -d --wait
 	npm run generate
 	npm run migrate
 	npm run dev
 
 stop:
-	@docker compose -p bsm down
+	@docker compose -p project_x down
 
 migrations:
 	npm run generate
