@@ -1,4 +1,4 @@
-![Test and Linting](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Test and Linting](https://github.com/amcelroy/sveltekit_postgres/actions/workflows/main.yaml/badge.svg)
 
 # What this is
 
