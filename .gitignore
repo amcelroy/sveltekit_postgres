@@ -1,4 +1,6 @@
 node_modules
+cypher.key
+iv.key
 
 # Output
 .output

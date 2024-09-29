@@ -14,9 +14,15 @@ migrations:
 install:
 	npm install
 
+cypher:
+	openssl rand -hex 16 | tr -d '\n' >> cypher.key
+	openssl rand -hex 8 | tr -d '\n' >> iv.key
+
 db-gui:
 	npx drizzle-kit studio
 
 test:
 	npm run test -- --run
+
+lint:
 	npx eslint src/**
