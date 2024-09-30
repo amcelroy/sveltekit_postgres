@@ -3,11 +3,27 @@ import * as dotenv from 'dotenv'
 import { customType } from "drizzle-orm/pg-core/columns/custom"
 import * as fs from 'node:fs';
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Inspired by: https://github.com/drizzle-team/drizzle-orm/issues/2098
 
-const key = fs.readFileSync( path.resolve( __dirname, '../../../cypher.key' ) ).subarray(0, 32);
-const iv = fs.readFileSync( path.resolve( __dirname, '../../../iv.key' ) ).subarray(0, 16);
+let dirname;
+
+try{
+    dirname = __dirname;
+}catch{
+    console.log("dirname is not defined");
+}finally{
+    dirname = undefined;
+}
+
+if(dirname === undefined) {
+    const __filename = fileURLToPath(import.meta.url);
+    dirname = path.dirname(__filename);
+}
+
+const key = fs.readFileSync( path.resolve( dirname, '../../../cypher.key' ) ).subarray(0, 32);
+const iv = fs.readFileSync( path.resolve( dirname, '../../../iv.key' ) ).subarray(0, 16);
 
 dotenv.config({
 	path: ".env"

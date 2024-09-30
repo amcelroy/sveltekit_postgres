@@ -1,4 +1,6 @@
+import { cypherEncryptedText } from '../src/lib/server/encrypt';
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+
 
 export const userTable = pgTable('users', {
 	id: text('id').notNull().primaryKey(),
@@ -17,6 +19,16 @@ export const sessionTable = pgTable('sessions', {
 	}).notNull()
 });
 
+export const userProfileTable = pgTable('user_profiles', {
+	id: text('id').notNull().primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => userTable.id),
+	firstName: cypherEncryptedText('first_name').notNull().default(''),
+	lastName: cypherEncryptedText('last_name').notNull().default(''),
+});
+
 export type User = typeof userTable.$inferInsert;
 export type UpdateUser = Partial<typeof userTable.$inferInsert>;
 export type Session = typeof sessionTable.$inferInsert;
+export type UserProfile = typeof userProfileTable.$inferInsert;

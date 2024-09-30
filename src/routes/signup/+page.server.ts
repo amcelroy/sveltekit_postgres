@@ -1,15 +1,10 @@
 import { lucia } from "$lib/server/auth";
 import { redirect } from "@sveltejs/kit";
-import { generateIdFromEntropySize } from "lucia";
-import { hash } from "@node-rs/argon2";
 import type { Actions } from "./$types";
-import { db } from "../../hooks.server";
-import { userTable } from "../../schema";
-import { eq } from "drizzle-orm";
-
 import { superValidate, setError, fail } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters"
 import { schemaSignUp } from "$lib/validationSchemas";
+import { user_create, user_exists, user_get } from "$lib/server/user";
 
 export const load = (async () => {
 	const form = await superValidate(zod(schemaSignUp));
@@ -22,26 +17,19 @@ export const actions: Actions = {
 		if (!form.valid) {
 			return fail(400, {form})
 		}
-		const userId = generateIdFromEntropySize(10); // 16 characters long
-		const passwordHash = await hash(form.data.password, {
-			// recommended minimum parameters
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
-		});
 
-        const users = await db.select().from(userTable).where(eq(userTable.email, form.data.email));
-
-		if(users.length > 0) {
-			return setError(form, "email", "Email already exists.")
+		let user;
+		if(await user_exists(form.data.email)) {
+			user = await user_get(form.data.email);
 		}else{
-			await db.insert(userTable).values({
-				id: userId,
-				email: form.data.email,
-				password_hash: passwordHash
-			});
+			user = await user_create(form.data.email, form.data.password);
 		}
+
+		if(!user) {
+			return setError(form, "email", "Email already exists.")
+		}
+
+		const userId = user.id;
 
 		const session = await lucia.createSession(userId, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);

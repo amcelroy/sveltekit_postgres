@@ -16,3 +16,4 @@ test('Testing cypher encrypt functions: emoji strings', () => {
 
     expect(v).toBe(y);
 });
+

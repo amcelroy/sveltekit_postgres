@@ -1,7 +1,5 @@
 run:
 	@docker compose -p project_x up -d --wait
-	npm run generate
-	npm run migrate
 	npm run dev
 
 stop:
