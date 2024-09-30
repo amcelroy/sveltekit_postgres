@@ -33,7 +33,7 @@ NODE_ENV="development" # No need to change, unless you are deploying
 ### Adding pages
 Add new pages in the `src/routes` folder. There are 2 types of pages:
 1. `+page.svelte` - These can be seen by anyone and don't have a server side component. 
-2. `+page.server.svelte and +page.svelte` - These pages have a server side component and can be used to fetch data from the database. To ensure that a user has proper permissions to view the path, YOU MUST MANUALLY check the users session, for example:
+2. `+page.server.ts and +page.svelte` - These pages have a server side component and can be used to fetch data from the database. To ensure that a user has proper permissions to view the path, YOU MUST MANUALLY check the users session, for example:
 
 ```
 import { redirect } from "@sveltejs/kit";
