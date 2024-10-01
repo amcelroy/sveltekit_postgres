@@ -13,6 +13,8 @@ jobs:
           POSTGRES_USER: "user_good"
           POSTGRES_PASSWORD: "pass_good"
           POSTGRES_DB: "default"
+          POSTGRES_HOST: "postgres" # No need to change
+          POSTGRES_PORT: "5432" # No need to change
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -24,6 +26,8 @@ jobs:
       POSTGRES_USER: "user_good"
       POSTGRES_PASSWORD: "pass_good"
       POSTGRES_DB: "default"
+      POSTGRES_HOST: "postgres" # No need to change
+      POSTGRES_PORT: "5432" # No need to change
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
