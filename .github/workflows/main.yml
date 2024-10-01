@@ -21,12 +21,12 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
+    
     env:
       POSTGRES_USER: "user_good"
       POSTGRES_PASSWORD: "pass_good"
       POSTGRES_DB: "default"
-      POSTGRES_HOST: "postgres" # No need to change
+      POSTGRES_HOST: "localhost" # No need to change
       POSTGRES_PORT: "5432" # No need to change
     steps:
     - uses: actions/checkout@v4
