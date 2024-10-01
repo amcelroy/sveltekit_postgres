@@ -3,6 +3,27 @@ on: [push]
 jobs:
   Unit-Test-Actions:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: "user_good"
+          POSTGRES_PASSWORD: "pass_good"
+          POSTGRES_DB: "default"
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      POSTGRES_USER: "user_good"
+      POSTGRES_PASSWORD: "pass_good"
+      POSTGRES_DB: "default"
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4

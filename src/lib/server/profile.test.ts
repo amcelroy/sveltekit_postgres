@@ -24,7 +24,8 @@ test('Testing profile: encryption of sensitive information', async () => {
             }
         }
     }catch{
-
+        // Throw an error if anything janky happens
+        expect(false).toBe(true);
     }finally{
         if(user){
             // Delete the user regardless of the outcome of the test
