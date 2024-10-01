@@ -34,7 +34,7 @@ jobs:
       with:
         node-version: 20
     - run: make install
-    - run: make migrations
     - run: make cypher
+    - run: make migrations
     - run: make test
     - run: make lint
