@@ -23,7 +23,8 @@ test('Testing profile: encryption of sensitive information', async () => {
                 }
             }
         }
-    }catch{
+    }catch(e){
+        console.log(e);
         // Throw an error if anything janky happens
         expect(false).toBe(true);
     }finally{

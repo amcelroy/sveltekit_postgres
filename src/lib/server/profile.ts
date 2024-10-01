@@ -4,11 +4,12 @@ import { db } from "./auth";
 import { generateIdFromEntropySize } from "lucia";
 
 export async function profile_create(user: User) {
-    const profile = {
-        id: generateIdFromEntropySize(16),
+    const profile: UserProfile = {
+        id: generateIdFromEntropySize(10),
         userId: user.id,
-        name: ""
-    } as UserProfile;
+        firstName: 'first',
+        lastName: 'last',
+    }
     return await db.insert(userProfileTable).values(profile);
 }
 

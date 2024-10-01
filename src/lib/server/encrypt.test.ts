@@ -17,3 +17,11 @@ test('Testing cypher encrypt functions: emoji strings', () => {
     expect(v).toBe(y);
 });
 
+test('Testing cypher encrypt functions: null', () => {
+    const v = '';
+    const x = encryptString(v);
+    const y = decryptString(x);
+
+    expect(v).toBe(y);
+});
+

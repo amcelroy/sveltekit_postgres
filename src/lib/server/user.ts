@@ -35,7 +35,7 @@ export async function user_exists(email: string) {
 }
 
 export async function user_create(email: string, password: string) {
-    const userId = generateIdFromEntropySize(16); 
+    const userId = generateIdFromEntropySize(10); 
     const passwordHash = await hash(password, {
         // recommended minimum parameters
         memoryCost: 19456,

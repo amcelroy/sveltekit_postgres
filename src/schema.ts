@@ -24,8 +24,8 @@ export const userProfileTable = pgTable('user_profiles', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id),
-	firstName: cypherEncryptedText('first_name').notNull().default(''),
-	lastName: cypherEncryptedText('last_name').notNull().default(''),
+	firstName: cypherEncryptedText('first_name').notNull().default('first'),
+	lastName: cypherEncryptedText('last_name').notNull().default('last'),
 });
 
 export type User = typeof userTable.$inferInsert;
