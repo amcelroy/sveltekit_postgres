@@ -1,11 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
+
     export let data;
 
     onMount(() => {
-        
+        console.log('Profile page mounted');
     });
+
 </script>
 
-Hello {data.profile?.firstName} {data.profile?.lastName}!
+Profile!

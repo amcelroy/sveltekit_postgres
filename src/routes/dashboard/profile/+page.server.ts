@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import type { User } from "../../schema";
 import { profile_get } from "$lib/server/profile";
+import type { User } from "../../../schema";
 
 export const load: PageServerLoad = (async (event) => {
     if (!event.locals.user) redirect(302, "/");
