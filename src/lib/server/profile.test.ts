@@ -30,7 +30,7 @@ test('Testing profile: encryption of sensitive information', async () => {
     }finally{
         if(user){
             // Delete the user regardless of the outcome of the test
-            await user_delete(user?.id);
+            await user_delete(user);
         }
     }
 });

@@ -15,7 +15,7 @@ test('Testing user', async () => {
         if(user1) {
             expect(user1.email).toBe(user.email);
             expect(user1.id).toBe(user.id);
-            await user_delete(user1.id);
+            await user_delete(user1);
         }
 
         user1 = await user_get(email);
