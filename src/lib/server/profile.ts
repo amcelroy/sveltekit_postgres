@@ -21,6 +21,12 @@ export async function profile_get(user: User) {
 export async function profile_update(user: User, profile: UserProfile) {
     return await db.update(userProfileTable).set({
         firstName: profile!.firstName,
-        lastName: profile!.lastName
+        lastName: profile!.lastName,
+        address: profile!.address,
+        city: profile!.city,
+        state: profile!.state,
+        zip: profile!.zip,
+        phone: profile!.phone,
+        profileComplete: profile!.profileComplete,
     }).where(eq(userProfileTable.userId, user.id)).returning();
 }

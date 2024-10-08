@@ -13,5 +13,9 @@ export const load: PageServerLoad = (async (event) => {
 
     const profile = await profile_get(user);
 
-    return { profile }
+    if(profile?.profileComplete) {
+        return { profile }
+    }else{
+        redirect(302, "/dashboard/profile");
+    }
 })
