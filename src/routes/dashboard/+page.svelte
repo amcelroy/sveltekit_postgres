@@ -8,4 +8,10 @@
     });
 </script>
 
-Hello {data.profile?.firstName} {data.profile?.lastName}!
+<div class="text-2xl">
+    Hello {data.profile?.firstName} {data.profile?.lastName}
+</div>
+<div>
+    What would you like to do today?
+</div>
+

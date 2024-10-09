@@ -36,6 +36,9 @@
         </Drawer.Content>
     </Drawer.Root>
 {:else}
+    <h1 class="text-3xl mb-4">
+        Profile
+    </h1>
     <ProfileForm {data} />
 {/if}
 <!-- <SuperDebug data={$formData} /> -->
