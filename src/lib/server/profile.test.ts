@@ -12,11 +12,11 @@ test('Testing profile: encryption of sensitive information', async () => {
 
     try{
         if(user){
-            const profile = await profile_get(user.id);
+            const profile = await profile_get(user);
             if(profile){
                 profile.firstName = first_name;
                 profile.lastName = last_name;
-                const updated_profile = await profile_update(profile);
+                const updated_profile = await profile_update(user, profile);
                 if(updated_profile){
                     expect(updated_profile[0].firstName).toBe(first_name);
                     expect(updated_profile[0].lastName).toBe(last_name);
@@ -30,7 +30,7 @@ test('Testing profile: encryption of sensitive information', async () => {
     }finally{
         if(user){
             // Delete the user regardless of the outcome of the test
-            await user_delete(user?.id);
+            await user_delete(user);
         }
     }
 });

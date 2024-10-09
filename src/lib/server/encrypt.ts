@@ -30,6 +30,10 @@ dotenv.config({
 })
 
 export function encryptString( data: string ): string {
+    if(data == ""){
+        return "";
+    }
+
     const cypher = crypto.createCipheriv("aes-256-cbc", key, iv);
     let encrypted = cypher.update( data, "utf16le", 'base64' );
     encrypted += cypher.final( 'base64' );
@@ -37,6 +41,10 @@ export function encryptString( data: string ): string {
 }
 
 export function decryptString( data: string ): string {
+    if(data == ""){
+        return "";
+    }
+
     const cypher = crypto.createDecipheriv("aes-256-cbc", key, iv);
     let decrypted = cypher.update( data, 'base64', "utf16le" );
     decrypted += cypher.final( "utf16le" );

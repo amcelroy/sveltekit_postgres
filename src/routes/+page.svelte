@@ -16,7 +16,7 @@
 	<Button
 		href="/signup"
 		variant="ghost"
-		class="absolute right-4 top-4 md:right-8 md:top-8"
+		class="flex right-0 top-0 md:absolute md:right-8 md:top-8"
 	>
 		Signup
 	</Button>
@@ -37,7 +37,7 @@
 		</div>
 	</div>
 	<div class="lg:p-8">
-		<div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+		<div class="mx-auto flex w-full flex-col justify-center space-y-6">
 			<div class="flex flex-col space-y-2 text-center">
 				<h1 class="text-2xl font-semibold tracking-tight">Login to account</h1>
 				<p class="text-muted-foreground text-sm">

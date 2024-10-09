@@ -13,16 +13,16 @@ export async function user_get(email: string) {
     return await db.query.userTable.findFirst({ where: eq(userTable.email, email) });
 }
 
-export async function user_delete(id: string) {
+export async function user_delete(user: User) {
     // Check if any sessions are stored in the table and delete
-    const sessions = await db.select().from(sessionTable).where(eq(sessionTable.userId, id));
+    const sessions = await db.select().from(sessionTable).where(eq(sessionTable.userId, user.id));
     if(sessions.length > 0){
-        await db.delete(sessionTable).where(eq(sessionTable.userId, id));
+        await db.delete(sessionTable).where(eq(sessionTable.userId, user.id));
     }
     // Delete user profile
-    await db.delete(userProfileTable).where(eq(userProfileTable.userId, id));
+    await db.delete(userProfileTable).where(eq(userProfileTable.userId, user.id));
     // Delete user
-    return await db.delete(userTable).where(eq(userTable.id, id));
+    return await db.delete(userTable).where(eq(userTable.id, user.id));
 }
 
 export async function user_exists(email: string) {

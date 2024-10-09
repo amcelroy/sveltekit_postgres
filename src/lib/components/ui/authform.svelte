@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { cn } from "$lib/utils.js";
-    import { Button } from "./button";
     import { Input } from "./input";
 	import * as Form from "./form/index"
     import { type SuperValidated, type Infer, superForm } from "sveltekit-superforms";

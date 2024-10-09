@@ -40,7 +40,9 @@
 					<Form.Control let:attrs>
 					<Input {...attrs} bind:value={$formData.confirmation} placeholder="confirm password" type="password"/>
 					</Form.Control>
-					<Form.FieldErrors />
+					<Form.FieldErrors>
+						Test
+					</Form.FieldErrors>
 				</Form.Field>
 			</div>
 		<Form.Button disabled={isLoading}>Submit</Form.Button>
