@@ -1,6 +1,6 @@
 <script lang="ts">
     import { browser } from "$app/environment";
-    import Authform from "$lib/components/ui/Authform.svelte";
+    import Authform from "$lib/components/forms/Authform.svelte";
     import { Button } from "$lib/components/ui/button";
     import { onMount } from "svelte";
 
