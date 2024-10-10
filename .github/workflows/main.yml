@@ -1,5 +1,11 @@
 name: Sveltekit / Postgres CI/CD
-on: [push]
+on: 
+  push:
+    branches:
+      [main]
+  pull_request:
+    branches:
+      [main]
 jobs:
   Unit-Test-Actions:
     runs-on: ubuntu-latest
