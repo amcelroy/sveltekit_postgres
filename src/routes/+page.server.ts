@@ -1,14 +1,26 @@
 import { db, lucia } from "$lib/server/auth";
 import { redirect } from "@sveltejs/kit";
 import { verify } from "@node-rs/argon2";
-import type { Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import { userTable } from "../schema";
 import { eq } from "drizzle-orm";
 import { superValidate, setError, fail } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters"
 import { schemaSignIn } from "$lib/validationSchemas";
 
-export const load = (async () => {
+export const load: PageServerLoad = (async (event) => {
+	const auth_token = event.cookies.get("auth_session");
+
+	// Check if the user is logged in and has a valid session. If so, redirect to the dashboard.
+	// Otherwise, configure the form template.
+	if(auth_token){
+		// Check if the session is valid
+		const session_valid = await lucia.validateSession(auth_token);
+		if(session_valid){
+			redirect(302, "/dashboard");
+		}
+	}
+
 	const form = await superValidate(zod(schemaSignIn));
 	return { form }
 })

@@ -12,8 +12,6 @@
 
     const form = superForm(data, {validators: zodClient(schemaProfile)});
     const { form: formData, enhance } = form;
-
-    var profileComplete = (data.profileComplete as boolean);
 </script>
 
 <form method="POST" use:enhance>

@@ -1,8 +1,14 @@
 <script lang="ts">
+    import { browser } from "$app/environment";
     import Authform from "$lib/components/ui/Authform.svelte";
     import { Button } from "$lib/components/ui/button";
+    import { onMount } from "svelte";
 
 	export let data;
+
+	onMount(() => {
+
+	});
 
 </script>
 

@@ -12,15 +12,15 @@ export const load: PageServerLoad = (async (event) => {
         email: event.locals.user.username,
     }
 
-    //const profile = await profile_get(user);
-
     if(event.locals.session){
         const logout_all = event.url.searchParams.get("all") == 'true';
 
         if(logout_all){
             await lucia.invalidateUserSessions(user.id);
+            event.cookies.delete("auth_session", {path: "/"});
         }else{
             await lucia.invalidateSession(event.locals.session.userId);
+            event.cookies.delete("auth_session", {path: "/"});
         }
     }
 
