@@ -4,7 +4,7 @@
     import { schemaProfile, type SchemaProfile } from '$lib/validationSchemas';
     import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
     import { zodClient } from 'sveltekit-superforms/adapters';
-    import Label from './ui/label/label.svelte';
+    import { Label } from '../ui/label';
 
     export let data: SuperValidated<Infer<SchemaProfile>>;
 
