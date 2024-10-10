@@ -16,6 +16,6 @@ export const load: PageServerLoad = (async (event) => {
     if(profile?.profileComplete) {
         return { profile }
     }else{
-        redirect(302, "/dashboard/profile");
+        redirect(302, "/home/profile");
     }
 })

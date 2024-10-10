@@ -17,7 +17,7 @@ export const load: PageServerLoad = (async (event) => {
 		// Check if the session is valid
 		const session_valid = await lucia.validateSession(auth_token);
 		if(session_valid){
-			redirect(302, "/dashboard");
+			redirect(302, "/home");
 		}
 	}
 
@@ -66,6 +66,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, "/dashboard");
+		redirect(302, "/home");
 	}
 };
