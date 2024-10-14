@@ -38,6 +38,6 @@ export const actions: Actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, "/dashboard");
+		redirect(302, "/home");
 	}
 };

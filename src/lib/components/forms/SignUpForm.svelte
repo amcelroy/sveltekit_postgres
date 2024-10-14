@@ -1,7 +1,7 @@
 <script lang="ts" >
 	import { cn } from "$lib/utils.js";
-    import { Input } from "./input";
-	import * as Form from "./form/index"
+    import { Input } from "../ui/input";
+	import * as Form from "../ui/form/index"
 	import { superForm } from "sveltekit-superforms";
 	import type { SuperValidated, Infer } from "sveltekit-superforms";
 	import { schemaSignUp, type SchemaSignUp } from "$lib/validationSchemas";
