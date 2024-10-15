@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SignUpForm from "$lib/components/ui/SignUpForm.svelte";
+    import SignUpForm from '$lib/components/forms/SignUpForm.svelte';
 
 	export let data;
 </script>

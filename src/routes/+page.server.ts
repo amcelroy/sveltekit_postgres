@@ -11,7 +11,7 @@ import { schemaSignIn } from "$lib/validationSchemas";
 export const load: PageServerLoad = (async (event) => {
 	const auth_token = event.cookies.get("auth_session");
 
-	// Check if the user is logged in and has a valid session. If so, redirect to the dashboard.
+	// Check if the user is logged in and has a valid session. If so, redirect to home.
 	// Otherwise, configure the form template.
 	if(auth_token){
 		// Check if the session is valid
