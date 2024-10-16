@@ -1,9 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import { sessionTable, type User } from "../../schema";
-import { db, lucia } from "$lib/server/auth";
-import { eq } from "drizzle-orm";
-
+import {  type User } from "../../schema";
+import { lucia } from "$lib/server/auth";
 
 export const load: PageServerLoad = (async (event) => {
     if (!event.locals.user) redirect(302, "/");
