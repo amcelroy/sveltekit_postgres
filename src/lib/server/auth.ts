@@ -1,4 +1,4 @@
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import { dev } from "$app/environment";
 import pg from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -24,6 +24,7 @@ export const adapter = new DrizzlePostgreSQLAdapter(db, schema.sessionTable, sch
 logger.info("Lucia adapter created");
 
 export const lucia = new Lucia(adapter, {
+	sessionExpiresIn: new TimeSpan(1, "w"),
 	sessionCookie: {
 		attributes: {
 			// set to `true` when using HTTPS

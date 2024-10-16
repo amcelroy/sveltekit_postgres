@@ -1,7 +1,8 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import type { User } from "../../schema";
-import { lucia } from "$lib/server/auth";
+import { sessionTable, type User } from "../../schema";
+import { db, lucia } from "$lib/server/auth";
+import { eq } from "drizzle-orm";
 
 
 export const load: PageServerLoad = (async (event) => {
@@ -19,7 +20,7 @@ export const load: PageServerLoad = (async (event) => {
             await lucia.invalidateUserSessions(user.id);
             event.cookies.delete("auth_session", {path: "/"});
         }else{
-            await lucia.invalidateSession(event.locals.session.userId);
+            await lucia.invalidateSession(event.locals.session.id);
             event.cookies.delete("auth_session", {path: "/"});
         }
     }

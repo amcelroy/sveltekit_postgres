@@ -7,8 +7,8 @@ export async function profile_create(user: User) {
     const profile: UserProfile = {
         id: generateIdFromEntropySize(10),
         userId: user.id,
-        firstName: 'first',
-        lastName: 'last',
+        firstName: '',
+        lastName: '',
     }
     return await db.insert(userProfileTable).values(profile);
 }
